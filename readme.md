@@ -1,6 +1,4 @@
-Certainly! Here’s a sample `README.md` file for your cryptography project on GitHub. Feel free to customize it as needed:
 
----
 
 # Cryptography Concepts
 
@@ -203,6 +201,3 @@ Contributions to this repository are welcome! If you have any improvements, bug 
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
----
-
-Feel free to adapt this template to fit your project’s specific needs and details!
