@@ -1,6 +1,6 @@
 # Vigenère Cipher
 
-The Vigenère Cipher is a method of encrypting alphabetic text by using a simple form of polyalphabetic substitution. The cipher uses a keyword, where each letter of the keyword determines how much each letter of the plaintext will be shifted. This is done by aligning the keyword repeatedly against the plaintext.
+The Vigenère Cipher is a method of encrypting alphabetic text by using a polyalphabetic substitution technique. The cipher uses a keyword, where each letter of the keyword determines how much each letter of the plaintext will be shifted. This is done by aligning the keyword repeatedly against the plaintext.
 
 ## How It Works
 
@@ -26,58 +26,50 @@ Let's walk through an example to see how the Vigenère Cipher works.
 
 ### Example Details
 
-| **Plaintext** | GEEKSFORTGEEKS |
-|---------------|----------------|
-| **Keyword**   | AYUSHAYUSHAYUS |
-| **Key**       | AYUSHAYUSHAYUS |
-| **Ciphertext**| GFKPGYUTVGFKPG |
+| **Plaintext** | ELAVARASAN |
+|---------------|------------|
+| **Keyword**   | KEYWORDKEYW |
+| **Key**       | KEYWORDKEYW |
+| **Ciphertext**| HIJZVHSJBM |
 
 ### Step-by-Step Breakdown
 
 1. **Align the Key with the Plaintext**:
 
-    | **Plaintext** | G | E | E | K | S | F | O | R | T | G | E | E | K | S |
-    |---------------|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-    | **Key**       | A | Y | U | S | H | A | Y | U | S | H | A | Y | U | S |
-    | **Shift**     | 0 | 24| 20| 18| 7 | 0 | 24| 20| 18| 7 | 0 | 24| 20| 18|
+    | **Plaintext** | E | L | A | V | A | R | A | S | A | N |
+    |---------------|---|---|---|---|---|---|---|---|---|---|
+    | **Key**       | K | E | Y | W | O | R | D | K | E | Y |
+    | **Shift**     | 10| 4 | 24| 22| 14| 17| 3 | 10| 4 | 24|
 
 2. **Encrypt the Plaintext**:
 
-    - **G (shift 0)** = G → **G**
-    - **E (shift 24)** = E → **F**
-    - **E (shift 20)** = E → **K**
-    - **K (shift 18)** = K → **P**
-    - **S (shift 7)** = S → **G**
-    - **F (shift 0)** = F → **F**
-    - **O (shift 24)** = O → **Y**
-    - **R (shift 20)** = R → **U**
-    - **T (shift 18)** = T → **T**
-    - **G (shift 7)** = G → **V**
-    - **E (shift 0)** = E → **E**
-    - **E (shift 24)** = E → **F**
-    - **K (shift 20)** = K → **K**
-    - **S (shift 18)** = S → **P**
+    - **E (shift 10)** = E → **H**
+    - **L (shift 4)** = L → **P**
+    - **A (shift 24)** = A → **Y**
+    - **V (shift 22)** = V → **R**
+    - **A (shift 14)** = A → **O**
+    - **R (shift 17)** = R → **I**
+    - **A (shift 3)** = A → **D**
+    - **S (shift 10)** = S → **C**
+    - **A (shift 4)** = A → **E**
+    - **N (shift 24)** = N → **H**
 
-    The resulting **Ciphertext** is **GFKPGYUTVGFKPG**.
+    The resulting **Ciphertext** is **HPYROIDCZH**.
 
 3. **Decrypt the Ciphertext**:
 
-    - **G (shift 0)** = G → **G**
-    - **F (shift 24)** = F → **E**
-    - **K (shift 20)** = K → **E**
-    - **P (shift 18)** = P → **K**
-    - **G (shift 7)** = G → **S**
-    - **F (shift 0)** = F → **F**
-    - **Y (shift 24)** = Y → **O**
-    - **U (shift 20)** = U → **R**
-    - **T (shift 18)** = T → **T**
-    - **V (shift 7)** = V → **G**
-    - **E (shift 0)** = E → **E**
-    - **F (shift 24)** = F → **E**
-    - **K (shift 20)** = K → **K**
-    - **P (shift 18)** = P → **S**
+    - **H (shift 10)** = H → **E**
+    - **P (shift 4)** = P → **L**
+    - **Y (shift 24)** = Y → **A**
+    - **R (shift 22)** = R → **V**
+    - **O (shift 14)** = O → **A**
+    - **I (shift 17)** = I → **R**
+    - **D (shift 3)** = D → **A**
+    - **C (shift 10)** = C → **S**
+    - **E (shift 4)** = E → **A**
+    - **H (shift 24)** = H → **N**
 
-    The resulting **Plaintext** is **GEEKSFORTGEEKS**.
+    The resulting **Plaintext** is **ELAVARASAN**.
 
 ## Code Implementation
 
@@ -121,33 +113,24 @@ class VigenereCipher {
         return orig_text.toString();
     }
 
-    static String LowerToUpper(String s) {
-        StringBuilder str = new StringBuilder(s);
-        for (int i = 0; i < s.length(); i++) {
-            if (Character.isLowerCase(s.charAt(i))) {
-                str.setCharAt(i, Character.toUpperCase(s.charAt(i)));
-            }
-        }
-        return str.toString();
+    static String toUpperCase(String s) {
+        return s.toUpperCase();
     }
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Enter the plaintext: ");
-        String Str = scanner.nextLine();
+        String plaintext = toUpperCase(scanner.nextLine());
 
         System.out.print("Enter the keyword: ");
-        String Keyword = scanner.nextLine();
+        String keyword = toUpperCase(scanner.nextLine());
 
-        String str = LowerToUpper(Str);
-        String keyword = LowerToUpper(Keyword);
+        String key = generateKey(plaintext, keyword);
+        String cipherText = cipherText(plaintext, key);
 
-        String key = generateKey(str, keyword);
-        String cipher_text = cipherText(str, key);
-
-        System.out.println("Ciphertext: " + cipher_text);
-        System.out.println("Original/Decrypted Text: " + originalText(cipher_text, key));
+        System.out.println("Ciphertext: " + cipherText);
+        System.out.println("Original/Decrypted Text: " + originalText(cipherText, key));
         
         scanner.close();
     }
@@ -156,4 +139,8 @@ class VigenereCipher {
 
 ## Conclusion
 
-The Vigenère Cipher is a straightforward encryption technique that improves upon simple Caesar Ciphers by using a keyword to introduce polyalphabetic substitution. Its security depends on the secrecy and complexity of the keyword used.
+The Vigenère Cipher is a straightforward encryption technique that enhances simple Caesar Ciphers by using a keyword to introduce polyalphabetic substitution. Its security depends on the secrecy and complexity of the keyword used.
+
+---
+
+Feel free to use and adjust the README content to fit your needs!
